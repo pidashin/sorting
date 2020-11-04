@@ -10,23 +10,45 @@ const radixSort = (arr) => {
     }
   }
 
-  const radix = 10
-  const dev = 1
-  const buckets = new Array(bucketCounts).fill([])
+  //find digit
+  let maxDigit = 0
+  while(max > 0) {
+    maxDigit++
+    max = Math.floor(max / 10)
+  }
 
-  for(let i = 1; i <= max; i++, radix *= 10, dev *= 10) {
-    for(let j = 0; j < len; j++) {
-      const bucketsIdx = Math.floor((arr[j] % radix) / dev)
-      buckets[bucketsIdx].push(arr[j])
+  const buckets = new Array(bucketCounts)
+  let currentDigit = 1 
+
+  while(currentDigit <= maxDigit) {
+    // init buckets
+    for(let i = 0; i < bucketCounts; i++) {
+      buckets[i] = []
     }
 
-    let pos = 0
-    for(let j = 0; j < bucketCounts; j++) {
-      for(let k = 0; k < buckets[j].length; k++) {
-        arr[pos++] = buckets[j][k]
+    // arrange buckets
+    for(let i = 0; i < len; i++) {
+      const val = arr[i]
+      const LSD = Math.floor(val / Math.pow(10, currentDigit - 1)) % 10
+      console.log(val, currentDigit, LSD)
+      buckets[LSD].push(val)
+    }
+
+    // reflect back to source
+    let dataIdx = 0
+    for(let i = 0; i < buckets.length; i++) {
+      const bucket =  buckets[i]
+      if(bucket.length > 0) {
+        for(let j = 0; j < bucket.length; j++) {
+          arr[dataIdx++] = bucket[j]
+        }
       }
     }
+
+    currentDigit++
   }
+
+  return arr
 }
 
-return radixSort
+module.exports = radixSort

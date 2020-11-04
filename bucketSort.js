@@ -15,7 +15,10 @@ const bucketSort = arr => {
   }
 
   const bucketCounts = Math.floor((max - min) / defualtBucketSize) + 1
-  const buckets = new Array(bucketCounts).fill([])
+  const buckets = new Array(bucketCounts)
+  for(let i = 0; i < buckets.length; i++) {
+    buckets[i] = []
+  }
 
   for (let i = 0; i < len; i++) {
     const bucketIdx = Math.floor((arr[i] - min) / defualtBucketSize)

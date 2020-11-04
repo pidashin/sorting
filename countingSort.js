@@ -21,6 +21,11 @@ const countingSort = (arr, keyName) => {
     countingArr[v - min]++
   })
 
+  countingArr.reduce((prev, cur, idx, arr) => {
+    arr[idx] = prev
+    return prev + cur
+  }, 0)
+
   const result = new Array(len)
   source.forEach(v => {
     const idx = countingArr[v - min]++
